@@ -1,0 +1,12 @@
+version: "3"
+
+services: 
+  app:
+    build: .
+    ports: 
+      - 3338:3338
+  
+  database:
+    image: mysql
+    ports: 
+      - 3306
