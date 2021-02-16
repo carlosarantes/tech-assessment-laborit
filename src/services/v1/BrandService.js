@@ -20,15 +20,15 @@ class BrandService {
     }
 
     async update(id, body) {
-        const result = await Brand.update(body, { where : { _id : id }});
+        const result = await Brand.update(body, { where : { id }});
         if(!result || !result[0]) {
             throw new HttpError("Brand not found.", 404);
         }
     }
 
     async delete(id) {
-        const result = await Brand.destroy({ where : { _id : id } });
-        if(!result || !result[0]) {
+        const result = await Brand.destroy({ where : { id } });
+        if(!result) {
             throw new HttpError("Brand not found.", 404);
         }
     }

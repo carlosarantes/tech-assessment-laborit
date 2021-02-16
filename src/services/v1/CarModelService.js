@@ -20,15 +20,15 @@ class CarModelService {
     }
 
     async update(id, body) {
-        const result = await CarModel.update(body, { where : { _id : id }});
+        const result = await CarModel.update(body, { where : { id }});
         if(!result || !result[0]) {
             throw new HttpError("Model not found.", 404);
         }
     }
 
     async delete(id) {
-        const result = await CarModel.destroy({ where : { _id : id } });
-        if(!result || !result[0]) {
+        const result = await CarModel.destroy({ where : { id } });
+        if(!result) {
             throw new HttpError("Model not found.", 404);
         }
     }

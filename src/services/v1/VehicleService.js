@@ -20,15 +20,15 @@ class VehicleService {
     }
 
     async update(id, body) {
-        const result = await Vehicle.update(body, { where : { _id : id }});
+        const result = await Vehicle.update(body, { where : { id }});
         if(!result || !result[0]) {
             throw new HttpError("Vehicle not found.", 404);
         }
     }
 
     async delete(id) {
-        const result = await Vehicle.destroy({ where : { _id : id } });
-        if(!result || !result[0]) {
+        const result = await Vehicle.destroy({ where : { id } });
+        if(!result) {
             throw new HttpError("Vehicle not found.", 404);
         }
     }

@@ -1,0 +1,906 @@
+{
+    "openapi" : "3.0.0",
+    "info" : {
+        "title" : "Honda Vehicles",   
+        "description" : "Api designed to manage honda vehicles.",
+        "version" : "1.0",
+        "contact" : {
+            "name" : "Carlos Augusto Arantes",
+            "email" : "carlosaugusto.a@outlook.com"
+        }
+    },
+    "paths" : {
+        "/health" : {
+            "get" : {
+                "tags" : [
+                    "Health"
+                ],
+                "summary" : "Health check.",
+                "description" : "Health check.",
+                "operationId" : "health",
+                "responses" : {
+                    "200" : {
+                        "description": "Health check"
+                    }
+                }
+            }
+        },
+        "/api/v1/users/registration" : {
+            "post" : {
+                "tags" : [
+                    "Users"
+                ],
+                "summary" : "User registration.",
+                "description" : "User registration.",
+                "operationId" : "userRegistration",
+                "requestBody": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "$ref": "#/components/examples/UserRegistration"
+                        }
+                      }
+                    }
+                },
+                "responses" : {
+                    "201" : {
+                        "description": "User registration was successfully",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/examples/UserRegistrationOk"
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description" : "Something went wrong."
+                    },
+                    "409" : {
+                        "description" : "E-mail provided already in use."
+                    }
+                }
+            }
+        },
+        "/api/v1/users/login" : {
+            "post" : {
+                "tags" : [
+                    "Users"
+                ],
+                "summary" : "User login.",
+                "description" : "User login.",
+                "operationId" : "userLogin",
+                "requestBody": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "$ref": "#/components/examples/UserLogin"
+                        }
+                      }
+                    }
+                },
+                "responses" : {
+                    "201" : {
+                        "description": "User authnticated",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/examples/UserRegistrationOk"
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description" : "Something went wrong."
+                    },
+                    "401" : {
+                        "description" : "Login failed, invalid credentials."
+                    }
+                }
+            }
+        },
+        "/api/v1/brands" : {
+            "get" : {
+                "tags" : [
+                    "Brands"
+                ],
+                "summary" : "Get All Brands",
+                "description" : "Get all brands from database.",
+                "operationId" : "getAllBrands",
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : {
+                    "200" : {
+                        "description": "List of brands",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Brand"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "post" : {
+                "tags" : [
+                    "Brands"
+                ],
+                "summary" : "Create new brand",
+                "description" : "Create new brand.",
+                "operationId" : "createNewBrand",
+                "requestBody": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "$ref": "#/components/examples/BrandPayload"
+                        }
+                      }
+                    }
+                },
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : {
+                    "201" : {
+                        "description": "Brand created",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Brand"
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    }
+                }
+            }
+        },
+        "/api/v1/brands/{id}" : {
+            "get" : {
+                "tags" : [
+                    "Brands"
+                ],
+                "summary" : "Get a brand by id.",
+                "description" : "Get a brand by id.",
+                "operationId" : "getBrandById",
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of the brand.",
+                      "required": true
+                    }
+                ],
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : { 
+                    "200" : {
+                        "description" : "Brand found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Brand"
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    },
+                    "404" : {
+                        "description": "Brand not found."
+                    }
+                }
+            },
+            "put" : {
+                "tags" : [
+                    "Brands"
+                ],
+                "summary" : "Update brand.",
+                "description" : "Update brand.",
+                "operationId" : "updateBrand",
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of the brand.",
+                      "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "$ref": "#/components/examples/BrandPayload"
+                        }
+                      }
+                    }
+                },
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : { 
+                    "204" : {
+                        "description" : "Brand updated"
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    },
+                    "404" : {
+                        "description": "Brand not found."
+                    }
+                }
+            },
+            "delete" : {
+                "tags" : [
+                    "Brands"
+                ],
+                "summary" : "Delete a brand by id.",
+                "description" : "Delete a brand by id.",
+                "operationId" : "deleteBrand",
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of the brand.",
+                      "required": true
+                    }
+                ],
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : { 
+                    "204" : {
+                        "description" : "Brand deleted"
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    },
+                    "404" : {
+                        "description": "Brand not found."
+                    }
+                }
+            }
+        },
+        "/api/v1/models" : {
+            "get" : {
+                "tags" : [
+                    "Models"
+                ],
+                "summary" : "Get All Models",
+                "description" : "Get all models from database.",
+                "operationId" : "getAllModels",
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : {
+                    "200" : {
+                        "description": "List of models",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Model"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "post" : {
+                "tags" : [
+                    "Models"
+                ],
+                "summary" : "Create new model",
+                "description" : "Create new model.",
+                "operationId" : "createNewModel",
+                "requestBody": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "$ref": "#/components/examples/ModelPayload"
+                        }
+                      }
+                    }
+                },
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : {
+                    "201" : {
+                        "description": "Model created",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Model"
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    }
+                }
+            }
+        },
+        "/api/v1/models/{id}" : {
+            "get" : {
+                "tags" : [
+                    "Models"
+                ],
+                "summary" : "Get a model by id.",
+                "description" : "Get a model by id.",
+                "operationId" : "getModelById",
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of the model.",
+                      "required": true
+                    }
+                ],
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : { 
+                    "200" : {
+                        "description" : "Model found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Model"
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    },
+                    "404" : {
+                        "description": "Model not found."
+                    }
+                }
+            },
+            "put" : {
+                "tags" : [
+                    "Models"
+                ],
+                "summary" : "Update model.",
+                "description" : "Update model.",
+                "operationId" : "updateModel",
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of the model.",
+                      "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "$ref": "#/components/examples/ModelPayload"
+                        }
+                      }
+                    }
+                },
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : { 
+                    "204" : {
+                        "description" : "Model updated"
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    },
+                    "404" : {
+                        "description": "Model not found."
+                    }
+                }
+            },
+            "delete" : {
+                "tags" : [
+                    "Models"
+                ],
+                "summary" : "Delete a model by id.",
+                "description" : "Delete a model by id.",
+                "operationId" : "deleteModel",
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of the model.",
+                      "required": true
+                    }
+                ],
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : { 
+                    "204" : {
+                        "description" : "Model deleted"
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    },
+                    "404" : {
+                        "description": "Model not found."
+                    }
+                }
+            }
+        },
+        "/api/v1/vehicles" : {
+            "get" : {
+                "tags" : [
+                    "Vehicles"
+                ],
+                "summary" : "Get All Vehicles",
+                "description" : "Get all vehicles from database.",
+                "operationId" : "getAllVehicles",
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : {
+                    "200" : {
+                        "description": "List of vehicles",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Vehicle"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "post" : {
+                "tags" : [
+                    "Vehicles"
+                ],
+                "summary" : "Create new vehicle",
+                "description" : "Create new vehicle.",
+                "operationId" : "createNewVehicle",
+                "requestBody": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "$ref": "#/components/examples/VehiclePayload"
+                        }
+                      }
+                    }
+                },
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : {
+                    "201" : {
+                        "description": "Vehicle created",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Vehicle"
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    }
+                }
+            }
+        },
+        "/api/v1/vehicles/{id}" : {
+            "get" : {
+                "tags" : [
+                    "Vehicles"
+                ],
+                "summary" : "Get a vehicle by id.",
+                "description" : "Get a vehicle by id.",
+                "operationId" : "getVehicleById",
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of the vehicle.",
+                      "required": true
+                    }
+                ],
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : { 
+                    "200" : {
+                        "description" : "Vehicle found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Vehicle"
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    },
+                    "404" : {
+                        "description": "Vehicle not found."
+                    }
+                }
+            },
+            "put" : {
+                "tags" : [
+                    "Vehicles"
+                ],
+                "summary" : "Update vehicle.",
+                "description" : "Update vehicle.",
+                "operationId" : "updateVehicle",
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of the vehicle.",
+                      "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "$ref": "#/components/examples/VehiclePayload"
+                        }
+                      }
+                    }
+                },
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : { 
+                    "204" : {
+                        "description" : "Vehicle updated"
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    },
+                    "404" : {
+                        "description": "Vehicle not found."
+                    }
+                }
+            },
+            "delete" : {
+                "tags" : [
+                    "Vehicles"
+                ],
+                "summary" : "Delete a vehicle by id.",
+                "description" : "Delete a vehicle by id.",
+                "operationId" : "deleteVehicle",
+                "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "description": "Id of the vehicle.",
+                      "required": true
+                    }
+                ],
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : { 
+                    "204" : {
+                        "description" : "Vehicle deleted"
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    },
+                    "404" : {
+                        "description": "Vehicle not found."
+                    }
+                }
+            }
+        }
+    },  	
+    "components" : {
+        "schemas" : {
+            "User" : {
+                "type": "object",
+                "required": [
+                    "name",
+                    "email",
+                    "password"
+                ],
+                "properties" : {
+                    "id" : {
+                        "type": "integer",
+                        "example" : 1  
+                    }, 
+                    "name" : {
+                        "type": "string",
+                        "example" : "Bryan Watson"  
+                    }, 
+                    "email" : {
+                        "type": "string",
+                        "example" : "bryan.watson@gmail.com"  
+                    }, 
+                    "password" : {
+                        "type": "string",
+                        "example" : "10203040" 
+                    },
+                    "created_at" : {
+                        "type": "string",
+                        "example" : "2020-10-10T10:11:12"
+                    },
+                    "updated_at" : {
+                        "type": "string",
+                        "example" : "2020-10-10T10:11:12"
+                    }
+                }
+            },
+            "Brand" : {
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "properties" : {
+                    "id" : {
+                        "type": "integer",
+                        "example" : 1  
+                    }, 
+                    "name" : {
+                        "type": "string",
+                        "example" : "Honda"  
+                    }, 
+                    "created_at" : {
+                        "type": "string",
+                        "example" : "2020-10-10T10:11:12"
+                    },
+                    "updated_at" : {
+                        "type": "string",
+                        "example" : "2020-10-10T10:11:12"
+                    }
+                }
+            },
+            "Model" : {
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "properties" : { 
+                    "id" : {
+                        "type": "integer",
+                        "example" : 1  
+                    }, 
+                    "name" : {
+                        "type": "string",
+                        "example" : "2012E"
+                    },
+                    "created_at" : {
+                        "type": "string",
+                        "example" : "2020-10-10T10:11:12"
+                    },
+                    "updated_at" : {
+                        "type": "string",
+                        "example" : "2020-10-10T10:11:12"
+                    }
+                }
+            },
+            "Vehicle" : {
+                "type": "object",
+                "required": [
+                    "value",
+                    "year_model",
+                    "fuel",
+                    "brand_id",
+                    "model_id"
+                ],
+                "properties" : { 
+                    "id" : {
+                        "type": "integer",
+                        "example" : 1  
+                    }, 
+                    "value" : {
+                        "type": "string",
+                        "example" : "R$ 2012.00"
+                    },
+                    "year_model" : {
+                        "type": "integer",
+                        "example" : 2012
+                    },
+                    "fuel" : {
+                        "type": "string",
+                        "example" : "Gasoline"
+                    },
+                    "brand_id" : {
+                        "type": "integer",
+                        "example" : 1
+                    },
+                    "model_id" : {
+                        "type": "integer",
+                        "example" : 1
+                    },
+                    "created_at" : {
+                        "type": "string",
+                        "example" : "2020-10-10T10:11:12"
+                    },
+                    "updated_at" : {
+                        "type": "string",
+                        "example" : "2020-10-10T10:11:12"
+                    }
+                }
+            }
+        },
+        "examples" : {
+            "BrandPayload" : {
+                "type": "object",
+                "properties" : { 
+                    "name" : {
+                        "type": "string",
+                        "example" : "Honda"
+                    }
+                }
+            },
+            "ModelPayload" : {
+                "type": "object",
+                "properties" : { 
+                    "name" : {
+                        "type": "string",
+                        "example" : "C3"
+                    }
+                }
+            },
+            "VehiclePayload" : {
+                "type": "object",
+                "properties" : { 
+                    "value" : {
+                        "type": "string",
+                        "example" : "R$ 1232.00"
+                    },
+                    "year_model" : {
+                        "type": "integer",
+                        "example" : 2012
+                    },
+                    "fuel" : {
+                        "type": "string",
+                        "example" : "Gasoline"
+                    },
+                    "brand_id" : {
+                        "type": "integer",
+                        "example" : 1
+                    },
+                    "model_id" : {
+                        "type": "integer",
+                        "example" : 1
+                    }
+                }
+            },
+            "UserLogin" : {
+                "properties" : { 
+                    "email" : {
+                        "type": "string",
+                        "example" : "bryan.watson@gmail.com"
+                    },
+                    "password" : {
+                        "type": "string",
+                        "example" : "10203040"
+                    } 
+                }
+            },
+            "UserRegistration" : {
+                "properties" : { 
+                    "name" : {
+                        "type": "string",
+                        "example" : "Bryan Watson"
+                    },
+                    "email" : {
+                        "type": "string",
+                        "example" : "bryan.watson@gmail.com"
+                    },
+                    "password" : {
+                        "type": "string",
+                        "example" : "10203040"
+                    } 
+                }
+            },
+            "UserRegistrationOk" : {
+                "properties" : { 
+                    "user" : {
+                        "type": "object",
+                        "properties" : {
+                            "id" : {
+                                "type": "integer",
+                                "example" : 1
+                            },
+                            "name" : {
+                                "type": "string",
+                                "example" : "Bryan Watson"
+                            },
+                            "email" : {
+                                "type": "string",
+                                "example" : "bryan.watson@gmail.com"
+                            },
+                            "created_at" : {
+                                "type": "string",
+                                "example" : "2020-02-22T12:44:33"
+                            },
+                            "updated_at" : {
+                                "type": "string",
+                                "example" : "2020-02-22T12:44:33"
+                            }
+                        }
+                    },
+                    "token" : {
+                        "type": "string",
+                        "example" : "hasudhaiushdaishdiuahsdihaishdiu3RDJ"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }    
+        }
+    },
+    "tags" : [
+        {
+            "name" : "Users",
+            "description" : "Users endpoints"
+        },
+        {
+            "name" : "Brands",
+            "description" : "Brands endpoints"
+        },
+        {
+            "name" : "Models",
+            "description" : "Models endpoints"
+        },
+        {
+            "name" : "Vehicles",
+            "description" : "Vehicles endpoints"
+        },
+        {
+            "name" : "Health",
+            "description" : "Health check."
+        }
+    ]
+}

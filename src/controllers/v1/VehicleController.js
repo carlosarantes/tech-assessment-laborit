@@ -23,7 +23,7 @@ class VehicleController extends BaseController {
     async findById(req, res) {
         try {
             const { id } = req.params;
-            const vehicle = await VehicleService.findById(parseInt(id, 10));
+            const vehicle = await VehicleService.findById(id);
             return res.json({ vehicle });
         } catch (e) {
             super.returnException(res, e);
@@ -33,7 +33,7 @@ class VehicleController extends BaseController {
     async update(req, res) {
         try {
             const { id } = req.params;
-            const vehicle = await VehicleService.update(parseInt(id, 10), req.body);
+            const vehicle = await VehicleService.update(id, req.body);
             return res.json({ vehicle });
         } catch (e) {
             super.returnException(res, e);
@@ -43,8 +43,8 @@ class VehicleController extends BaseController {
     async delete(req, res) {
         try {
             const { id } = req.params;
-            const vehicle = await VehicleService.delete(parseInt(id, 10));
-            return res.json({ vehicle });
+            await VehicleService.delete(id);
+            return res.status(204).send("");
         } catch (e) {
             super.returnException(res, e);
         }
