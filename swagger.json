@@ -723,7 +723,8 @@
                 "required": [
                     "name",
                     "email",
-                    "password"
+                    "password",
+                    "role"
                 ],
                 "properties" : {
                     "id" : {
@@ -741,6 +742,10 @@
                     "password" : {
                         "type": "string",
                         "example" : "10203040" 
+                    },
+                    "role" : {
+                        "type": "string",
+                        "enum": [ "ADMIN", "PUBLIC" ]
                     },
                     "created_at" : {
                         "type": "string",
@@ -914,6 +919,11 @@
                     "password" : {
                         "type": "string",
                         "example" : "10203040"
+                    } ,
+                    "role" : {
+                        "type": "string",
+                        "enum" : [ "ADMIN", "PUBLIC" ],
+                        "example" : "ADMIN"
                     } 
                 }
             },
@@ -933,6 +943,11 @@
                             "email" : {
                                 "type": "string",
                                 "example" : "bryan.watson@gmail.com"
+                            },
+                            "role" : {
+                                "type": "string",
+                                "enum" : [ "ADMIN", "PUBLIC" ],
+                                "example" : "ADMIN"
                             },
                             "created_at" : {
                                 "type": "string",

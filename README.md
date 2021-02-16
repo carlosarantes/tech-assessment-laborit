@@ -1,11 +1,6 @@
 # Laborit Technical Assessment
 
-
-
-
-
-
-
+This read me is about a laborit technical assessmeent. :)
 
 ## Before running the application
 

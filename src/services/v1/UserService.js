@@ -7,16 +7,16 @@ const { generateToken } = require("../../helpers/tokenHelper");
 
 class UserService {
     async register(body) {
-        let { name, email, password } = body;
+        let { name, email, password, role } = body;
  
         let user = await User.findOne({ where : { email } });
         if(user) throw new HttpError("E-mail already in use", 409);
 
         password = await bcrypt.hash(password, 10);
 
-        user = await User.create({ name, email, password });
+        user = await User.create({ name, email, password, role });
         user.password = undefined;
-        const token =  generateToken({ id: user.id });
+        const token =  generateToken({ id: user.id, role : user.role });
 
         return { user, token };
     }
@@ -33,7 +33,7 @@ class UserService {
         }
 
         user.password = undefined;
-        const token =  generateToken({ id: user.id });
+        const token =  generateToken({ id: user.id, role : user.role });
 
         return { user, token };
     }
