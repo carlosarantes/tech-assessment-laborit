@@ -1,19 +1,26 @@
-docker run -p 3306 m
+# Laborit Technical Assessment
 
 
-docker run -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root mysql:5.7
+## Before running the application
+
+If you mean to run the application with NPM or Yarn, you need, first of all, to create a `.env` file on project's root, there is an `.env.example` which you can base on. 
+
+Fulfill this file according to your needs and check if you have an running instance of MySql.
 
 
-yarn sequelize db:create
+## Running with NPM and YARN
 
-yarn sequelize-cli migration:generate --name CreateBrandTable
+To run this application with NPM (node version >= 12) and Yarn just run the following commands in the projects root: 
 
-yarn sequelize-cli migration:generate --name CreateCarModelTable
+- yarn sequelize db:create
+- yarn sequelize db:migrate
+- npm run start
 
-yarn sequelize-cli migration:generate --name CreateVehicleTable  
 
-yarn sequelize-cli migration:generate --name CreateUserTable  
+## Environment variables
 
-yarn sequelize db:migrate
-
-yarn sequelize db:migrate:undo
+- `PORT` : Port which express server will listen to.
+- `DB_HOST` : Mysql host.
+- `DB_USERNAME` : Mysql username.
+- `DB_PASSWORD` : Mysql password.
+- `DB_DATABASE` : Mysql database.
