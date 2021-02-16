@@ -2,102 +2,55 @@ const jwt = require("jsonwebtoken");
 const authConfig = require("../config/auth.json");
 
 const aclControl = {
-    "/brands" : [
-        {
-            method : "GET",
-            acl : "PUBLIC"
-        },
-        {
-            method : "POST",
-            acl : "ADMIN"
-        }
-    ],
-    "/brands/:id" : [
-        {
-            method : "GET",
-            acl : "ADMIN"
-        },
-        {
-            method : "PUT",
-            acl : "ADMIN"
-        },
-        {
-            method : "DELETE",
-            acl : "ADMIN"
-        }
-    ],
-    "/brands/vehicles/:brandId" : [
-        {
-            method : "GET",
-            acl : "PUBLIC"
-        }
-    ],
-    "/models" : [
-        {
-            method : "GET",
-            acl : "PUBLIC"
-        },
-        {
-            method : "POST",
-            acl : "ADMIN"
-        }
-    ],
-    "/models/:id" : [
-        {
-            method : "GET",
-            acl : "ADMIN"
-        },
-        {
-            method : "PUT",
-            acl : "ADMIN"
-        },
-        {
-            method : "DELETE",
-            acl : "ADMIN"
-        }
-    ],
-    "/models/vehicles/:modelId" : [
-        {
-            method : "GET",
-            acl : "PUBLIC"
-        }
-    ],
-    "/vehicles" : [
-        {
-            method : "GET",
-            acl : "PUBLIC"
-        },
-        {
-            method : "POST",
-            acl : "ADMIN"
-        }
-    ],
-    "/vehicles/:id" : [
-        {
-            method : "GET",
-            acl : "ADMIN"
-        },
-        {
-            method : "PUT",
-            acl : "ADMIN"
-        },
-        {
-            method : "DELETE",
-            acl : "ADMIN"
-        }
-    ]
+    "/brands" : {
+        "GET" : "PUBLIC",
+        "POST" : "ADMIN"
+    },
+    "/brands/:PARAM" : {
+        "GET" : "ADMIN",
+        "PUT" : "ADMIN",
+        "DELETE" : "ADMIN"
+    },
+    "/brands/vehicles/:PARAM" : {
+        "GET" : "PUBLIC"
+    },
+    "/models" : {
+        "GET" : "PUBLIC",
+        "POST" : "ADMIN"
+    },
+    "/models/:PARAM" : {
+        "GET" : "ADMIN",
+        "PUT" : "ADMIN",
+        "DELETE" : "ADMIN"
+    },
+    "/models/vehicles/:PARAM" : {
+        "GET" : "PUBLIC"
+    },
+    "/vehicles" : {
+        "GET" : "PUBLIC",
+        "POST" : "ADMIN"
+    },
+    "/vehicles/:PARAM" : {
+        "GET" : "ADMIN",
+        "PUT" : "ADMIN",
+        "DELETE" : "ADMIN"
+    }
 }
 
 
 const isValidACL = (req, role) => {
 
+    const method = req.method;
 
-    // console.log(   req.hostname        );
-           // console.log(   req.method        );
-           // console.log(   req.originalUrl        );
-           // console.log(   req.path        );
-           // console.log(   req.route        );
-           // console.log(   req.url        );
+    let path = req.path;
+    path = path.replace(/[0-9]/g, ":PARAM");
+
+    aclControl[path]
+    
+    const necessaryRole = aclControl[path][method];
+    if (role == "PUBLIC" && necessaryRole == "ADMIN") {
+        return false;
+    }
 
     return true;
 };
@@ -180,14 +133,12 @@ class AuthMiddleware {
                 return res.status(401).send({ "error" : message });
             } 
 
-            console.log(decoded);
-
             const role = decoded.role
 
             req.headers.userId = decoded.id;
             req.headers.role = role;
 
-            if ( !isValidACL(req, role)) {
+            if (!isValidACL(req, role)) {
                 return res.status(403).json({ "message" : "You are not allowed to perform this action." })   
             }
 
