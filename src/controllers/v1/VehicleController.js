@@ -30,6 +30,26 @@ class VehicleController extends BaseController {
         }
     }
 
+    async findByModelId(req, res) {
+        try {
+            const { modelId } = req.params;
+            const vehicles = await VehicleService.findByModelId(modelId);
+            return res.json({ vehicles });
+        } catch (e) {
+            super.returnException(res, e);
+        }
+    }
+
+    async findByBrandId(req, res) {
+        try {
+            const { brandId } = req.params;
+            const vehicles = await VehicleService.findByBrandId(brandId);
+            return res.json({ vehicles });
+        } catch (e) {
+            super.returnException(res, e);
+        }
+    }
+
     async update(req, res) {
         try {
             const { id } = req.params;

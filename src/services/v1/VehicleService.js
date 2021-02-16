@@ -19,6 +19,14 @@ class VehicleService {
         return vehicle;
     }
 
+    async findByModelId(modelId) {
+        return await Vehicle.findAll({ where : { model_id : modelId }});
+    }
+
+    async findByBrandId(brandId) {
+        return await Vehicle.findAll({ where : { brand_id : brandId }});
+    }
+
     async update(id, body) {
         const result = await Vehicle.update(body, { where : { id }});
         if(!result || !result[0]) {

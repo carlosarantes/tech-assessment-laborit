@@ -281,6 +281,45 @@
                 }
             }
         },
+        "/api/v1/brands/vehicles/{brandId}" : {
+            "get" : {
+                "tags" : [
+                    "Brands"
+                ],
+                "summary" : "Get a vehicles by brandId.",
+                "description" : "Get a vehicles by brandId.",
+                "operationId" : "getVehiclesByBrandId",
+                "parameters": [
+                    {
+                      "name": "brandId",
+                      "in": "path",
+                      "description": "Id of the brand.",
+                      "required": true
+                    }
+                ],
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : { 
+                    "200" : {
+                        "description" : "Vehicles found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Vehicle"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
+                    }
+                }
+            }
+        },
         "/api/v1/models" : {
             "get" : {
                 "tags" : [
@@ -455,6 +494,45 @@
                     },
                     "404" : {
                         "description": "Model not found."
+                    }
+                }
+            }
+        },
+        "/api/v1/models/vehicles/{modelId}" : {
+            "get" : {
+                "tags" : [
+                    "Models"
+                ],
+                "summary" : "Get vehicles by modelId.",
+                "description" : "Get vehicles by modelId.",
+                "operationId" : "getVehiclesByModelId",
+                "parameters": [
+                    {
+                      "name": "modelId",
+                      "in": "path",
+                      "description": "Id of the model.",
+                      "required": true
+                    }
+                ],
+                "security": [{
+                    "bearerAuth" : []
+                }],
+                "responses" : { 
+                    "200" : {
+                        "description" : "Vehicles found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Vehicle"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Something went wrong"
                     }
                 }
             }
