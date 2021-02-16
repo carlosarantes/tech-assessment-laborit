@@ -1,12 +1,34 @@
 version: "3"
 
-services: 
+services:
   app:
     build: .
-    ports: 
-      - 3338:3338
-  
+    environment:
+      - PORT=3333
+    ports:
+      - 3333:3333
+    links:
+      - database
+    depends_on:
+      - database
+    networks:
+      - app-connect
+    volumes:
+      - .:/home/node/api
+      - /home/node/api/node_modules
+
   database:
-    image: mysql
-    ports: 
-      - 3306
+    image: mysql:5.7
+    restart: always
+    networks:
+      - app-connect
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - TZ=America/Bahia
+
+
+networks:
+    app-connect:
+        driver: bridge

@@ -1,10 +1,9 @@
-import { Request, Response } from "express";
-import BaseController from "./BaseController";
-import BrandService from "../../services/v1/BrandService";
+const BaseController = require("./BaseController");
+const BrandService = require("../../services/v1/BrandService");
 
 class BrandController extends BaseController {
         
-    async findAll(req: Request, res: Response) {
+    async findAll(req, res) {
         try {
             const brands = await BrandService.findAll();
             return res.json({ brands });
@@ -13,7 +12,7 @@ class BrandController extends BaseController {
         }
     }
 
-    async create(req: Request, res: Response) {
+    async create(req, res) {
         try {
             const brand = await BrandService.create(req.body);
             return res.status(201).json({ brand });
@@ -22,35 +21,35 @@ class BrandController extends BaseController {
         }
     }
 
-    async findById(req: Request, res: Response) {
+    async findById(req, res) {
         try {
             const { id } = req.params;
-            const brand = await BrandService.findById(parseInt(id, 10));
+            const brand = await BrandService.findById(id);
             return res.json({ brand });
         } catch (e) {
             super.returnException(res, e);
         }
     }
 
-    async update(req: Request, res: Response) {
+    async update(req, res) {
         try {
             const { id } = req.params;
-            const brand = await BrandService.update(parseInt(id, 10), req.body);
-            return res.json({ brand });
+            await BrandService.update(id, req.body);
+            return res.status(204).send("");
         } catch (e) {
             super.returnException(res, e);
         }
     }
 
-    async delete(req: Request, res: Response) {
+    async delete(req, res) {
         try {
             const { id } = req.params;
-            const brand = await BrandService.delete(parseInt(id, 10));
-            return res.json({ brand });
+            await BrandService.delete(id);
+            return res.status(204).send("");
         } catch (e) {
             super.returnException(res, e);
         }
     }  
 }
 
-export default new BrandController();
+module.exports = new BrandController();

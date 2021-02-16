@@ -1,9 +1,8 @@
-import { Request, Response } from "express";
-import BaseController from "./BaseController";
-import VehicleService from "../../services/v1/VehicleService";
+const BaseController = require("./BaseController");
+const VehicleService = require("../../services/v1/VehicleService");
 
 class VehicleController extends BaseController {
-    async findAll(req: Request, res: Response) {
+    async findAll(req, res) {
         try {
             const vehicles = await VehicleService.findAll();
             return res.json({ vehicles });
@@ -12,7 +11,7 @@ class VehicleController extends BaseController {
         }
     }
 
-    async create(req: Request, res: Response) {
+    async create(req, res) {
         try {
             const vehicle = await VehicleService.create(req.body);
             return res.status(201).json({ vehicle });
@@ -21,7 +20,7 @@ class VehicleController extends BaseController {
         }
     }
 
-    async findById(req: Request, res: Response) {
+    async findById(req, res) {
         try {
             const { id } = req.params;
             const vehicle = await VehicleService.findById(parseInt(id, 10));
@@ -31,7 +30,7 @@ class VehicleController extends BaseController {
         }
     }
 
-    async update(req: Request, res: Response) {
+    async update(req, res) {
         try {
             const { id } = req.params;
             const vehicle = await VehicleService.update(parseInt(id, 10), req.body);
@@ -41,7 +40,7 @@ class VehicleController extends BaseController {
         }
     }
 
-    async delete(req: Request, res: Response) {
+    async delete(req, res) {
         try {
             const { id } = req.params;
             const vehicle = await VehicleService.delete(parseInt(id, 10));
@@ -52,4 +51,4 @@ class VehicleController extends BaseController {
     }  
 }
 
-export default new VehicleController();
+module.exports = new VehicleController();

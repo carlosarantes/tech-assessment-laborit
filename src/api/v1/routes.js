@@ -1,8 +1,8 @@
-import { Router } from "express"
+const { Router } = require("express");
 
-import BrandController from "../../controllers/v1/BrandController";
-import ModelController from "../../controllers/v1/ModelController";
-import VehicleController from "../../controllers/v1/VehicleController";
+const BrandController = require("../../controllers/v1/BrandController");
+const ModelController = require("../../controllers/v1/ModelController");
+const VehicleController = require("../../controllers/v1/VehicleController");
 
 const routes = Router();
 
@@ -26,4 +26,4 @@ routes.get('/vehicles/:id', VehicleController.findById);
 routes.put('/vehicles/:id', VehicleController.update);
 routes.delete('/vehicles/:id', VehicleController.delete);
 
-export default routes;
+module.exports=routes;

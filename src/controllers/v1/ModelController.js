@@ -1,9 +1,8 @@
-import { Request, Response } from "express";
-import BaseController from "./BaseController";
-import CarModelService from "../../services/v1/CarModelService";
+const BaseController = require("./BaseController");
+const CarModelService = require("../../services/v1/CarModelService");
 
 class ModelController extends BaseController {
-    async findAll(req: Request, res: Response) {
+    async findAll(req, res) {
         try {
             const models = await CarModelService.findAll();
             return res.json({ models });
@@ -12,7 +11,7 @@ class ModelController extends BaseController {
         }
     }
 
-    async create(req: Request, res: Response) {
+    async create(req, res) {
         try {
             const model = await CarModelService.create(req.body);
             return res.status(201).json({ model });
@@ -21,35 +20,35 @@ class ModelController extends BaseController {
         }
     }
 
-    async findById(req: Request, res: Response) {
+    async findById(req, res) {
         try {
             const { id } = req.params;
-            const model = await CarModelService.findById(parseInt(id, 10));
+            const model = await CarModelService.findById(id);
             return res.json({ model });
         } catch (e) {
             super.returnException(res, e);
         }
     }
 
-    async update(req: Request, res: Response) {
+    async update(req, res) {
         try {
             const { id } = req.params;
-            const model = await CarModelService.update(parseInt(id, 10), req.body);
-            return res.json({ model });
+            await CarModelService.update(id, req.body);
+            return res.status(204).send("");
         } catch (e) {
             super.returnException(res, e);
         }
     }
 
-    async delete(req: Request, res: Response) {
+    async delete(req, res) {
         try {
             const { id } = req.params;
-            const model = await CarModelService.delete(parseInt(id, 10));
-            return res.json({ model });
+            await CarModelService.delete(parseInt(id, 10));
+            return res.status(204).send("");
         } catch (e) {
             super.returnException(res, e);
         }
     }  
 }
 
-export default new ModelController();
+module.exports = new ModelController();
